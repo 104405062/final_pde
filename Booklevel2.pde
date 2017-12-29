@@ -1,6 +1,6 @@
 class Book{
   
-  PImage book5,book6,book7,book8,;
+  PImage book5,book6,book7,book8;
   final int _=0;
   final int a=5;
   final int b=6;
@@ -9,6 +9,8 @@ class Book{
   int[]book2= new int [7];
   PImage showBook;
   int bookW, bookH;
+  
+  //test
   
   Book(){
     book5=loadImage("img/book5.png");

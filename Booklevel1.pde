@@ -19,7 +19,7 @@ class Book{
     book4=loadImage("img/book4.png");
     robot=loadImage("img/robot.png");
     for(int i = 0; i < book.length; i++){
-        pickNum=floor(random(1,5));
+        pickNum=floor(random(1,5));  
       while(isExist(pickNum,book)){
         pickNum=floor(random(1,5));
       }
