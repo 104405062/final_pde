@@ -3,7 +3,6 @@ PImage bgImg, robot, gameboy, hand, bigHand,life0,life1,life2,mother;
 PImage next,restart;
 
 PImage []lifes;
-int handX, handY, handLength, handSpeed=3, handPokespeed;
 int playerHealth=3;
 int bookHeight, bookX[], bookY[];
 int momX,momY;
@@ -11,6 +10,7 @@ int momX,momY;
 PFont font;
 Time time;
 Book book;
+Hand finger;
 
 final int GAME_START = 0, GAME_RUN1 = 1, GAME_OVER1 = 2, GAME_WIN1 = 3;
 final int GAME_RUN2 = 4,GAME_OVER2 = 5, GAME_WIN2 = 6;
@@ -52,7 +52,7 @@ void setup() {
   
   book= new Book();
   time= new Time(1800);
-
+  finger= new Hand();
 
 
  
@@ -170,11 +170,7 @@ void draw() {
 }
 
 
-void handPokes() {
-  int handPokespeed=5;
-  handY+=handPokespeed;
-  image(hand, handX, handY);
-}
+
 boolean isHit(float ax, float ay, float aw, float ah, float bx, float by, float bh){
   return  ax + aw > bx &&    // a right edge past b left
         ay + ah > by &&    // a top edge past b bottom
