@@ -80,7 +80,15 @@ void draw() {
     
     case GAME_RUN1:
     image(bgImg, 0, 0);
-    
+    //finger
+    finger.display();
+    if(clickedState==true){
+      finger.update();
+      if(handX>-37){
+        handX=-37;
+        book.bePoked();
+      }
+    }
     // Timer
     time.timeSetting();
 
@@ -162,11 +170,13 @@ void draw() {
 }
 
 
-
-
-
 void handPokes() {
   int handPokespeed=5;
   handY+=handPokespeed;
   image(hand, handX, handY);
+}
+boolean isHit(float ax, float ay, float aw, float ah, float bx, float by, float bh){
+  return  ax + aw > bx &&    // a right edge past b left
+        ay + ah > by &&    // a top edge past b bottom
+        ay < by + bh;
 }
