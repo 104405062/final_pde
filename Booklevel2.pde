@@ -1,4 +1,7 @@
-class Book{
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
+class Book2{
   
   PImage book5,book6,book7,book8;
   final int _=0;
@@ -12,15 +15,16 @@ class Book{
   
   //test
   
-  Book(){
+  Book2(){
     book5=loadImage("img/book5.png");
     book6=loadImage("img/book6.png");
     book7=loadImage("img/book7.png");
     book8=loadImage("img/book8.png");
-    for(int i = 0; i < book2.length; i++){
+    /*for(int i = 0; i < book2.length; i++){
       book2[i]= floor(random(5,9));
       
-    }
+    }*/
+     shuffleArray(book2);
   }
   
   void display(){
@@ -30,7 +34,7 @@ class Book{
       switch(book2[i]){
         case _: showBook = null;  bookH=0; break;
         case a: showBook = book5; bookH=42;break;
-        case b: showBook = book6; bookH=42;break;
+        case b: showBook = book6; bookH=20;break;
         case c: showBook = book7; bookH=42;break;
         case d: showBook = book8; bookH=42;break;
       }
@@ -59,6 +63,19 @@ class Book{
     
   }
   
+  void shuffleArray(int[] ar)
+  {
+    // If running on Java 6 or older, use `new Random()` on RHS here
+    Random rnd = ThreadLocalRandom.current();
+    for (int i = ar.length - 1; i > 0; i--)
+    {
+      int index = rnd.nextInt(i + 1);
+      // Simple swap
+      int a = ar[index];
+      ar[index] = ar[i];
+      ar[i] = a;
+    }
+  }
 
 
 }
