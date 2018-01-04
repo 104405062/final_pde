@@ -1,33 +1,29 @@
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
+
 class Book{
   
-  PImage book1,book2,book3,book4,robot;
+  PImage book1,book2,book3,book4;
   final int _=0;
   final int a=1;
   final int b=2;
   final int c=3;
   final int d=4;
-  int[]book= new int [4];
+  int[]book= {1,2,3,4};
   PImage showBook;
   int bookW, bookH;
-  int pickNum;
-  boolean isExist;
   
   Book(){
     book1=loadImage("img/book1.png");
     book2=loadImage("img/book2.png");
     book3=loadImage("img/book3.png");
     book4=loadImage("img/book4.png");
-    robot=loadImage("img/robot.png");
-    for(int i = 0; i < book.length; i++){
-        pickNum=floor(random(1,5));  
-      while(isExist(pickNum,book)){
-        pickNum=floor(random(1,5));
-      }
-      book[i]= pickNum;
-      
-      
-      
+   /* for(int i = 0; i < book.length; i++){
+      book[i]= floor(random(1,5));
     }
+    */
+    shuffleArray(book);
   }
   
   void display(){
@@ -57,24 +53,24 @@ class Book{
          int bookY=340-(i)*bookH;
          image(showBook,bookX,bookY);
        }
-       
-       //robot
-      image(robot,300,340-4*bookH-105); 
     }
     
     
     
   }
   
-  boolean isExist(int pickNum,int[]book){
-    for(int i=0;i<book.length;i++){
-      if(book[i]==pickNum){
-        return true;
-      }else {
-        return false;
-      }
+void shuffleArray(int[] ar)
+  {
+    // If running on Java 6 or older, use `new Random()` on RHS here
+    Random rnd = ThreadLocalRandom.current();
+    for (int i = ar.length - 1; i > 0; i--)
+    {
+      int index = rnd.nextInt(i + 1);
+      // Simple swap
+      int a = ar[index];
+      ar[index] = ar[i];
+      ar[i] = a;
     }
   }
-
 
 }
