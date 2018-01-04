@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-class Book{
+class BookLevel1{
   
   PImage book1,book2,book3,book4;
   final int _=0;
@@ -12,9 +12,10 @@ class Book{
   final int d=4;
   int[]book= {1,2,3,4};
   PImage showBook;
+  //PImage showBook;
   int bookW, bookH;
   
-  Book(){
+  BookLevel1(){
     book1=loadImage("img/book1.png");
     book2=loadImage("img/book2.png");
     book3=loadImage("img/book3.png");
