@@ -1,7 +1,7 @@
-  int handW=263,handH=68;
+  int handW=450,handH=68;
   int handSpeed=3;
   PImage hand;
-  float handX=0,handY=207;
+  float handX=-187,handY=210;
   float pokedSpeed = 5f;
 class Hand{
   Hand(){
@@ -18,8 +18,8 @@ class Hand{
     handX+=pokedSpeed;
   }
   void handPokes() {
-    if(handX>=37){
-      handX=37;
+    if(handX>=-37){
+      handX=-37;
       book.bePoked();
     }
     
