@@ -1,4 +1,4 @@
-  int handW=450,handH=68;
+int handW=450,handH=68;
   int handSpeed=3;
   PImage hand;
   float handX=-187,handY=210;
@@ -22,7 +22,7 @@ class Hand{
     if(handY>=382){
       direction=UP;
       movingSpeed*=-1;
-    }else if(handY<=book.upperEdge){
+    }else if(handY<=book1.upperEdge){
       movingSpeed*=-1;
       direction=DOWN;
     }
@@ -39,7 +39,8 @@ class Hand{
            handX=-187;
            pokedSpeed*=-1;
         }
-      book.bePoked();
+      book1.bePoked();
     }
   }
+  
  }
