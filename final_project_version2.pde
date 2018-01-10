@@ -1,22 +1,38 @@
 PImage title, gamewin1, gameover1,gamewin2,gameover2,startImg, startNormal, startHovered, restartNormal, restartHovered;
-PImage bgImg, robot, gameboy, bigHand,life0,life1,life2,button;
+PImage bgImg, robot, gameboy,  bigHand,life0,life1,life2,button;
+PImage boySpeak, angel1, angel2, beforeMom, bigwin, momApear,momSpeak;
+PImage triangle,trianglecover;
+
+
+PImage next,restart;
 
 PImage []lifes;
 int playerHealth=3;
 int bookHeight, bookX[], bookY[];
-final int GAME_INIT_TIMER = 1800;
-int gameTimer = GAME_INIT_TIMER;
-PFont font;
+int momX,momY;
+int pokedBookIndex=10;
 
-BookLevel1 book;
+PFont font;
+Time time;
+BookLevel1 book1;
+Mother mother;
 Hand finger;
 
-final int GAME_START = 0, GAME_RUN = 1, GAME_OVER = 2, GAME_WIN = 3;
+final int GAME_START = 0, GAME_RUN1 = 1, GAME_OVER1 = 2, GAME_WIN1 = 3;
+final int GAME_RUN2 = 4,GAME_OVER2 = 5, GAME_WIN2 = 6;
+final int GAME_RUN3 = 7, GAME_OVER3 = 8, GAME_WIN3 = 9;
+final int boySpeak1=10, angelver1=11, angelver2=12;
+final int beforeMombg=13, momApearbg=14, momSpeakbg=15;
+
 int gameState = 0;
 final int START_BUTTON_W = 487;
 final int START_BUTTON_H = 88;
 final int START_BUTTON_X = 120;
 final int START_BUTTON_Y = 370;
+final int NEXT_BUTTON_W = 204;
+final int NEXT_BUTTON_H = 65;
+final int NEXT_BUTTON_X = 218;
+final int NEXT_BUTTON_Y = 352;
 boolean clickedState=false;
 
 
@@ -24,6 +40,7 @@ boolean clickedState=false;
 void setup() {
   size(640, 480, P2D);
   bgImg = loadImage("img/bgImg.png");
+ // hand = loadImage("img/hand.png");
   bigHand = loadImage("img/bigHand.png");
   robot= loadImage("img/robot.png");
   gameboy = loadImage("img/gameboy.png");
@@ -36,123 +53,272 @@ void setup() {
   life1=loadImage("img/scissor.png");
   life2=loadImage("img/stone.png");
   startNormal=loadImage("img/startNormal.png");
+  next=loadImage("img/next.png");
+  restart=loadImage("img/restart.png");
   button=loadImage("img/button.png");
   font=createFont("Arial",100);
   
-  book= new BookLevel1();
-  finger = new Hand();
-
-
-
+  boySpeak=loadImage("img/boySpeak1.png");
+  angel1=loadImage("img/angel1.png");
+  angel2=loadImage("img/angel2.png");
+  beforeMom=loadImage("img/beforeMom.png");
+  bigwin=loadImage("img/bigwin.png");
+  momApear=loadImage("img/momApear.png");
+  momSpeak=loadImage("img/momSpeak.png");
+  
+  triangle=loadImage("img/triangle.png");
+  trianglecover=loadImage("img/trianglecover.png");
+  
+  
+  book1= new BookLevel1();
+  time= new Time(1800);  //correct:1800
+  finger= new Hand();
 
  
 }
+
 
 void draw() {
   switch(gameState){
    case GAME_START:
    image(startImg,0,0);
-
       if(START_BUTTON_X + START_BUTTON_W > mouseX
       && START_BUTTON_X < mouseX
       && START_BUTTON_Y + START_BUTTON_H > mouseY
       && START_BUTTON_Y < mouseY) {
       image(startNormal, START_BUTTON_X, START_BUTTON_Y);
       if(mousePressed){
-        gameState = GAME_RUN;
+        gameState = boySpeak1;
         mousePressed = false;
-      }
-
-   
-
+       }
       }
     break;
     
-    case GAME_RUN:
+   case boySpeak1:
+   image(boySpeak,0,0);
+   image(triangle,560,400);
+    if(560+52 > mouseX
+    &&560 < mouseX
+    && 400+57 > mouseY
+    && 400 < mouseY) {
+   image(trianglecover,560,400);
+   if(mousePressed){
+    gameState = angelver1;
+    mousePressed = false;
+    }
+   }
+   break;
+   
+   case angelver1:
+   image(angel1,0,0);
+   image(triangle,560,400);
+    if(560+52 > mouseX
+    &&560 < mouseX
+    && 400+57 > mouseY
+    && 400 < mouseY) {
+   image(trianglecover,560,400);
+   if(mousePressed){
+    gameState = GAME_RUN1;
+    mousePressed = false;
+    }
+   }
+
+    break;
+    
+    case GAME_RUN1:
     image(bgImg, 0, 0);
-    //finger
+    
+    // Timer
+    time.timeSetting();
+
+    // Time UI 
+    time.drawTimerUI(); 
+    
+    //book 
+    book1.display();
+    book1.fall();
+       //load lifeImg
+
+  image(life0,10,50,35,40);
+  image(life1,80,50,35,40);
+  image(life2,150,50,35,40);
+   //life
+   //hand
+ //finger
     finger.display();
     finger.updownMove();
     if(clickedState==true){
       finger.update();
       if(handX>=-37){
         handX=-37;
-        book.bePoked();
+        book1.bePoked();
       }
     }
     //button
     image(button,30,400,90,51);
-    //life
+  
+  
      if (playerHealth==0){
-        gameState=GAME_OVER;
+        gameState=GAME_OVER1;
       }
-    // Timer
-    gameTimer --;  
-    if(gameTimer <= 0){ gameState = GAME_OVER;}
-    // Time UI 
-    drawTimerUI(); 
-    
-    //book 
-    book.display();
-       //load lifeImg
-
-    image(life0,10,80,35,40);
-    image(life1,80,80,35,40);
-    image(life2,150,80,35,40);
+      
     break;
     
-    case GAME_OVER: // Gameover Screen
+    case GAME_OVER1: // Gameover Screen
     image(gameover1, 0, 0);
-    
-    if(START_BUTTON_X + START_BUTTON_W > mouseX
-      && START_BUTTON_X < mouseX
-      && START_BUTTON_Y + START_BUTTON_H > mouseY
-      && START_BUTTON_Y < mouseY) {
-     
-      image(restartHovered, START_BUTTON_X, START_BUTTON_Y);
-      if(mousePressed){
-        gameState = GAME_RUN;
+  
+    if(NEXT_BUTTON_X + NEXT_BUTTON_W > mouseX
+      && NEXT_BUTTON_X < mouseX
+      && NEXT_BUTTON_Y + NEXT_BUTTON_H > mouseY
+      && NEXT_BUTTON_Y < mouseY) {
+      image(restart, NEXT_BUTTON_X, NEXT_BUTTON_Y);
+      if(mousePressed){        
+        gameState = GAME_RUN1;
+        time= new Time(1800); 
+        book1= new BookLevel1();
+        finger= new Hand();
+        //mother=new Mother();
         mousePressed = false;
       }
      }
-
+    break;
+    
+    case GAME_WIN1:
+    image(gamewin1,0,0);
+    
+     if(NEXT_BUTTON_X + NEXT_BUTTON_W > mouseX
+      && NEXT_BUTTON_X < mouseX
+      && NEXT_BUTTON_Y + NEXT_BUTTON_H > mouseY
+      && NEXT_BUTTON_Y < mouseY) {
+     
+      image(next, NEXT_BUTTON_X, NEXT_BUTTON_Y);
+      if(mousePressed){
+        gameState = GAME_RUN2;
+        time= new Time(2400);
+       // mother=new Mother();
+      //  book= new Book();
+        mousePressed = false;
+      }
+     }
+    
+    
+    
+    break;
+    
+    case GAME_RUN2:
+    image(bgImg, 0, 0);
+    
+    break;
+    
+    case GAME_OVER2:
+    image(gameover2, 0, 0);
+  
+    if(NEXT_BUTTON_X + NEXT_BUTTON_W > mouseX
+      && NEXT_BUTTON_X < mouseX
+      && NEXT_BUTTON_Y + NEXT_BUTTON_H > mouseY
+      && NEXT_BUTTON_Y < mouseY) {
+      image(restart, NEXT_BUTTON_X, NEXT_BUTTON_Y);
+      if(mousePressed){
+        
+        gameState = GAME_RUN2;
+        time= new Time(2400); 
+        book1= new BookLevel1();
+        mousePressed = false;
+      }
+     }
+    
+    break;
+    
+    case GAME_WIN2:
+    image(gamewin2,0,0);
+    
+     if(NEXT_BUTTON_X + NEXT_BUTTON_W > mouseX
+      && NEXT_BUTTON_X < mouseX
+      && NEXT_BUTTON_Y + NEXT_BUTTON_H > mouseY
+      && NEXT_BUTTON_Y < mouseY) {
+     
+      image(next, NEXT_BUTTON_X, NEXT_BUTTON_Y);
+      if(mousePressed){
+        gameState = beforeMombg;
+        time= new Time(6000);
+        mother=new Mother();
+        book1= new BookLevel1();
+        mousePressed = false;
+      }
+     }
+    
+    break;
+    
+    case beforeMombg:
+    image(beforeMom,0,0);
+    image(triangle,560,400);
+    if(560+52 > mouseX
+    &&560 < mouseX
+    && 400+57 > mouseY
+    && 400 < mouseY) {
+   image(trianglecover,560,400);
+   if(mousePressed){
+    gameState = momApearbg;
+    mousePressed = false;
+    }
+   }
+    
+    break;
+    
+    case momApearbg:
+    image(momApear,0,0);
+    image(triangle,560,400);
+    if(560+52 > mouseX
+    &&560 < mouseX
+    && 400+57 > mouseY
+    && 400 < mouseY) {
+   image(trianglecover,560,400);
+   if(mousePressed){
+    gameState = momSpeakbg;
+    mousePressed = false;
+    }
+   }
+    break;
+    
+    case momSpeakbg:
+    image(momSpeak,0,0);
+    image(triangle,560,400);
+    if(560+52 > mouseX
+    &&560 < mouseX
+    && 400+57 > mouseY
+    && 400 < mouseY) {
+   image(trianglecover,560,400);
+   if(mousePressed){
+    gameState = GAME_RUN3;
+    mousePressed = false;
+    }
+   }
+    
+    break;
+    
+    
+    case GAME_RUN3:
+    image(bgImg, 0, 0);
+    //test mom
+    //initial mom
+    mother.move();
+    mother.display();
+    // Timer
+    time.timeSetting();
+    // Time UI 
+    time.drawTimerUI();
+    
+    break;
+    
+    
+    case GAME_OVER3:
+    
+    
+    
+    break;
+    
   }
   
-}
-color getTimeTextColor(int frames){     
-  if(frames>=1200 && frames<1800){
-  return #D8E2DC;
-  }else
-  if(frames>=600 && frames<1200){
-  return #FFCDB2;
-  }else{
-  return #F25F5C;
-  }
-}
-
-String convertFramesToTimeString(int frames){ 
-int minute=floor((gameTimer/frames)/frames);
-int secound=floor(gameTimer%(frames*frames)/frames);
-String min=nf(minute,2);
-String sec=nf(secound,2);
- return min+":"+sec;
- 
-
-}
-
-void drawTimerUI(){
- String timeString = convertFramesToTimeString(60);
- textFont(font,48);
- textAlign(LEFT, BOTTOM);
-
- // Time Text Shadow Effect - You don't have to change this!
- fill(0, 120);
- text(timeString, 3, height + 3);
-
- // Actual Time Text
- color timeTextColor = getTimeTextColor(gameTimer);   
- fill(timeTextColor);
- text(timeString, 0, height);
 }
 
 
@@ -162,16 +328,9 @@ boolean isHit(float ax, float ay, float aw, float ah, float bx, float by, float 
         ay + ah > by &&    // a top edge past b bottom
         ay < by + bh;
 }
-void mouseClicked() {
-  if (mouseX>=30 && mouseX<=120 && mouseY>=400 && mouseY<=450) {
-    clickedState=true;
-    finger.handPokes();
-  }
-}
-void mouseReleased() {
-    clickedState=false;
-  
-}
+
+
+
 
 void keyReleased(){
   
@@ -187,4 +346,13 @@ void keyReleased(){
       book1.bookX[pokedBookIndex] =1000;
     }
   
+}
+void mouseClicked() {
+  if (mouseX>=30 && mouseX<=120 && mouseY>=400 && mouseY<=450) {
+    clickedState=true;
+    finger.handPokes();
+  }
+}
+void mouseReleased() {
+    clickedState=false;
 }
