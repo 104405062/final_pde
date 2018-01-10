@@ -1,10 +1,9 @@
-  import java.util.*;
-  import java.util.concurrent.ThreadLocalRandom;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
   
   class BookLevel1{
-    PImage book1,book2,book3,book4;
+    PImage robot,book1,book2,book3,book4;
     PImage showBook;
-    final int _=0;
     final int a=1;
     final int b=2;
     final int c=3;
@@ -35,7 +34,7 @@
     for(int i = 0; i < bookY.length; i++){
       bookH[i]=42;
       if (i==0){    
-        bookY[i]=340;
+        bookY[i]=382-42;
       }else
       if(i>0){
       bookY[i]=340-(i)*bookH[i];
@@ -49,7 +48,6 @@
     for(int i=0;i<4;i++){
       
       switch(book[i]){
-        case _: showBook = null;  bookH[i]=0; break;
         case a: showBook = book1; bookH[i]=42;break;
         case b: showBook = book2; bookH[i]=42;break;
         case c: showBook = book3; bookH[i]=42;break;
@@ -64,9 +62,7 @@
           image(showBook,bookX[i],bookY[i]);
         }
         
-        //fall
-       }else if(showBook == null) {
-         image(showBook,bookX[i],bookY[i]);
+        
        }
     }    
   }
@@ -83,6 +79,20 @@
       }
     }
   }
+  void fall(){
+    
+   if (pokedBookIndex < 4){
+        //println( bookY[pokedBookIndex+ 1], bookY[pokedBookIndex]);
+      if(bookX[pokedBookIndex]==1000 && bookY[pokedBookIndex]<bookY[pokedBookIndex-1]-bookH[pokedBookIndex]){
+        for(int a=pokedBookIndex+1; a<4;a++){
+             bookY[a]++;
+        } 
+      }   
+   }
+  }
+  
+  
+  
   void shuffleArray(int[] ar)
     {
       // If running on Java 6 or older, use `new Random()` on RHS here
