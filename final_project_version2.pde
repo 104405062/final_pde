@@ -172,3 +172,19 @@ void mouseReleased() {
     clickedState=false;
   
 }
+
+void keyReleased(){
+  
+    if(key=='b'){
+      // Press B to toggle demo mode
+      pokedBookIndex = 2;
+      for(int i=book1.bookX.length -1;i>pokedBookIndex;i--){
+        println(i);
+        book1.bookX[i]=book1.bookX[i-1];
+        book1.bookY[i]=book1.bookY[i-1];
+      }
+      
+      book1.bookX[pokedBookIndex] =1000;
+    }
+  
+}
