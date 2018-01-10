@@ -3,6 +3,8 @@
   PImage hand;
   float handX=-187,handY=210;
   float pokedSpeed = 5f;
+  float movingSpeed = 2f;
+  
 class Hand{
   Hand(){
     hand = loadImage("img/hand.png");
@@ -10,18 +12,34 @@ class Hand{
   void display(){
     image(hand,handX,handY);
   }
-  void updownMove(int movingSpeed,int bookTotalheight){
-    movingSpeed+=3;
-    handY=(174+movingSpeed)%bookTotalheight;
-  }
+  
   void update(){
+    updownMove();
     handX+=pokedSpeed;
   }
-  void handPokes() {
-    if(handX>=-37){
-      handX=-37;
+  void updownMove(){
+    int direction = (movingSpeed > 0) ? DOWN : UP;
+    if(handY>=382){
+      direction=UP;
+      movingSpeed*=-1;
+    }else if(handY<=book.upperEdge){
+      movingSpeed*=-1;
+      direction=DOWN;
+    }
+    handY+=movingSpeed;
+    }
+
+  
+
+  void handPokes(){
+    if(handX>=-50){
+      pokedSpeed*=-1;
+      handX+=pokedSpeed;
+        if(handX<=-187){
+           handX=-187;
+           pokedSpeed*=-1;
+        }
       book.bePoked();
     }
-    
   }
-}
+ }
